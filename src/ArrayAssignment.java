@@ -29,15 +29,13 @@ public class ArrayAssignment {
         }
         // makes an array and checks if every number is available
         int [] lCheck = new int[k];
-
+        // lCheck array with k elements [0,1,...,k]
         for(int i = 0;i<A.length;i++){
-            System.out.println("this is i: "+i);
             for (int j = i;j<A.length;j++){
                 System.out.println("j: "+j);
                 if(0 <= A[j] && A[j] < k){
                     lCheck[A[j]] = 1;
                 }
-                //looped lcheck = [1,0,1]
                 boolean full = true;
                 for(int d = 0; d<lCheck.length; d++){
                     //System.out.println(d);
@@ -45,7 +43,6 @@ public class ArrayAssignment {
                         full = false;
                     }
                 }
-                System.out.println(full);
                 if(full && j-i <path){
                     path = j-i+1;
                     System.out.println("path update " +path);
