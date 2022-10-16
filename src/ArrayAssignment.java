@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class ArrayAssignment {
@@ -19,13 +18,13 @@ public class ArrayAssignment {
         int [] lCheckCounter = new int[k];
 
 
-        for (int i = 0;i<A.length;i++){
+        for (int value : A) {
             // assigns 1s in lCheckCounter [0,1,1,0,1] with k elements for every value 0;k-1 in A[]
-            if (A[i] < k){
-                lCheckCounter[A[i]] = 1;
+            if (value < k) {
+                lCheckCounter[value] = 1;
             }
         }
-        for(int i = 0; i<lCheckCounter.length; i++){
+        for(int i : lCheckCounter){
             // checks that every number 0 to k-1 is in A
             // returns 0 if one of the 0;k-1 values is'nt in A
             if (lCheckCounter[i] == 0){
@@ -47,10 +46,11 @@ public class ArrayAssignment {
                 }
 
                 boolean full = true;
-                for(int d = 0; d<lCheck.length; d++){
+                for(int d : lCheck){
                     //checks every j if lCheck is complete
                     if (lCheck[d] == 0){
                         full = false;
+                        break;
                     }
                 }
                 if(full && j-i <path){
@@ -62,10 +62,9 @@ public class ArrayAssignment {
                 }
 
             }
-            for (int j =0; j<lCheck.length;j++){
+            Arrays.fill(lCheck,0);
                 // lCheck back to 0: [0,0,0,0,0,0,0,0,k=0,]
-                lCheck[j] = 0;
-            }
+
 
         }
 
@@ -85,7 +84,7 @@ public class ArrayAssignment {
         for (int i = 0;i<loop;i++) {
             // looped so oft wie es startpunkte gibt|_
 
-            int x = 0;
+            int x;
             int y = 0;
             if (i >= rows - 1) {
                 x = rows - 1;
