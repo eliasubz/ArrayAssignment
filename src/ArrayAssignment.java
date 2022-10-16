@@ -1,13 +1,14 @@
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class ArrayAssignment {
 
     public static void main(String[] args) {
-        int[][] recArr = {{1,2,3},{4,5,6},{7,8,9}};
+        //int[][] recArr = {{1,2},{3,4},{5,6},{7,8},{9,10},{11,12}};//,234},{13,14,15,16,17,18,345},{123,345,234,567,234,36,63}};
+        //int[][] recArr = {{1,2,3,4,5,6,7},{8,9,10,11,12,234,573},{13,14,15,16,17,18,345},{123,345,234,567,234,36,63}};
+        //int [][] recArr = [1, 2, 3, 4],[5, 6, 7, 8][9, 10, 11, 12][13, 14, 15, 16;
+        int [][] recArr = {{1,2,3},{4,5,6},{7,8,9}};
         diagonalPrint(recArr);
-        int [] A = {1,2,3,0,0,2,1};
-        System.out.println(allNumsWithin(A,3));
+
 
 
     }
@@ -17,108 +18,123 @@ public class ArrayAssignment {
         int [] lCheckCounter = new int[k];
 
 
-        for (int i = 0;i<A.length;i++){
-            if (A[i] < k){
-                lCheckCounter[A[i]] = 1;
+        for (int value : A) {
+            // assigns 1s in lCheckCounter [0,1,1,0,1] with k elements for every value 0;k-1 in A[]
+            if (value < k) {
+                lCheckCounter[value] = 1;
             }
         }
-        for(int i = 0; i<lCheckCounter.length; i++){
+        for(int i : lCheckCounter){
+            // checks that every number 0 to k-1 is in A
+            // returns 0 if one of the 0;k-1 values is'nt in A
             if (lCheckCounter[i] == 0){
                 return 0;
             }
         }
-        // makes an array and checks if every number is available
         int [] lCheck = new int[k];
-        // lCheck array with k elements [0,1,...,k]
+        // lCheck array with k elements [0,1,...,k] same as lCheckCounter
+        // it starts at every index and finishes when lCheck is full
+        // finds the shortest path at which lCheck is filled
         for(int i = 0;i<A.length;i++){
+            // iterates over A
+            // starts at A[i] and counts how many steps it takes, till all lCheck elements are 1
             for (int j = i;j<A.length;j++){
-                System.out.println("j: "+j);
+
+                // checks if A[j] value is in 0;k-1 and if so assigns 1 to lCheck
                 if(0 <= A[j] && A[j] < k){
                     lCheck[A[j]] = 1;
                 }
+
                 boolean full = true;
-                for(int d = 0; d<lCheck.length; d++){
-                    //System.out.println(d);
+                for(int d : lCheck){
+                    //checks every j if lCheck is complete
                     if (lCheck[d] == 0){
                         full = false;
+                        break;
                     }
                 }
                 if(full && j-i <path){
+                    // if lCheck is complete and the steps where less than the previous paths
+                    // then it assigns the new steps amount to path
                     path = j-i+1;
                     System.out.println("path update " +path);
                     break;
                 }
 
             }
-            for (int j =0; j<lCheck.length;j++){
-                lCheck[j] = 0;
-            }
-            //sets lCheck[1,0,1] to zero
-            System.out.println("path int the end: "+path);
+            Arrays.fill(lCheck,0);
+                // lCheck back to 0: [0,0,0,0,0,0,0,0,k=0,]
+
+
         }
 
-        // returns false if one of the numbers are left out
-
-        // now we now that there is a possible way
 
 
         return path;
     }
 
     public static void diagonalPrint(int[][] m) {
-        //System.out.printf(m[0][0]+" ");
-        int aCounter = 0,bCounter = 0,dover = 0;
-        boolean claped = true;
-        /*
-        for(int i = 0;i<m.length;i++){
-            System.out.println("jf");
-            bCounter++;
-            if(aCounter<dover && claped){
-                bCounter++;
-                aCounter = 0;
-                i= 0;
-                System.out.println("his");
 
-            }else if(!claped){
-                i--;
-                bCounter--;
-            }
-            for (int j=0;j<bCounter;j++){
-                System.out.print(m[i][j]+" ");
-                dover ++;
-                aCounter += 2;
+        int rows = m.length;
+        int columns = m[0].length;
+        int loop = rows + columns - 1;
+        // loop ist die Menge an Startpunkten an denen man wieder anfängt
+        // links und unten die elemnte entlang
 
-            }
-        }
-        */
-        int rowTops = 1;
-        boolean rowBack = false;
-        int rowBobs = 0;
-        int i = 0;
-        while (i<rowTops){
-            //System.out.println("this is i "+i);
-            //System.out.print(m[i][0] + " ");
-            if(rowTops<m.length&&!rowBack){
-                rowTops++;
-                //System.out.printf("row");
-            }else if(rowTops==m.length){
-                //System.out.printf("this");
-                i = 0;
-                rowTops--;
-                rowBack = true;
-                rowBobs = m.length-1;
-            }else if(rowBobs == rowTops && rowBack){
-                i = 0;
-                rowBobs--;
-                rowTops--;
-            }
+        for (int i = 0;i<loop;i++) {
+            // looped so oft wie es startpunkte gibt|_
 
-            else{
-                //System.out.printf("that");
-                rowTops--;
+            int x;
+            int y = 0;
+            if (i >= rows - 1) {
+                x = rows - 1;
+                y = i - rows + 1;
+            } else {
+                x = i;
             }
-            for(int j = 0;j<rowTops;j++){
-                //System.out.print(m[i][j] +" ");
+            //Systemten f.out.print("(x: "+x+" y: "+y+")");
+            //            // findet Koordinaür startpunkte
+
+            // if statements for these amount of rows =,<,> columns
+            if (rows == columns) {
+                for (int j = 0; j < x - y + 1; j++) {
+                    int a = x - j;
+                    int b = y + j;
+                    System.out.print(m[a][b]+" ");
+                }
+            }else if (rows < columns) {
+                int g = 1;
+                int bigger = columns -rows;
+                // bigger is how much more columns there are then rows
+                if (y>0){
+
+                    // When y starts to grow in other words that we started to stay in same row und go column to the right
+                    g = y+1;
+                }
+
+                if(y > bigger){
+                    g = -x +y+columns-y;
+
+                }
+                for (int j = 0;j < x-y +g && j<columns-1;j++){
+
+                    int a = x - j;
+                    int b = y + j;
+                    System.out.print(m[a][b]+" ");
+                }
+
+
+            }else if (rows> columns){
+                int g = 1;
+                if (x >= columns){
+                    g = columns-x;
+                }
+                for (int j = 0;j < x-y + g  &&  j < rows;j++){
+
+                    int a = x - j;
+                    int b = y + j;
+                    System.out.print(m[a][b]+" ");
+                }
             }
         }
     }
