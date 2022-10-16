@@ -4,7 +4,7 @@ import java.util.Arrays;
 public class ArrayAssignment {
 
     public static void main(String[] args) {
-        int[][] recArr = {{1,2,3},{4,5,6},{7,8,9},{20,21,22}};
+        int[][] recArr = {{1,2,3,4,5,6},{7,8,9,10,11,12}};
         diagonalPrint(recArr);
 
 
@@ -81,7 +81,7 @@ public class ArrayAssignment {
             }else {
                 x = i;
             }
-            //System.out.print("(x: "+x+" y: "+y+")");
+            System.out.print("(x: "+x+" y: "+y+")");
 
             // x und y sind startpunkte
             if (rows == collums) {
@@ -93,30 +93,32 @@ public class ArrayAssignment {
                 }
             }else if (rows < collums){
                 int g = 1;
-                if (x >= rows-1&& 0<y){
-
-                    g = 2;
+                if (y >= 1){
+                    g = collums-y-3;
+                    System.out.println(g);
                 }
-                for (int j = 0;j < x-y + g  &&  j < collums;j++){
+                for (int j = 0;j < x-y + g ;j++){
 
                     int a = x - j;
                     int b = y + j;
                     System.out.print(m[a][b]+" ");
                 }
+                System.out.println();
 
 
 
             }else if (rows> collums){
                 int g = 1;
                 if (x >= collums){
-                    g = 0;
+                    g = collums-x;
                 }
                 for (int j = 0;j < x-y + g  &&  j < rows;j++){
 
                     int a = x - j;
                     int b = y + j;
-                    System.out.print(" "+m[a][b]+" ");
+                    System.out.print(m[a][b]+" ");
                 }
+                System.out.println();
 
 
             }
