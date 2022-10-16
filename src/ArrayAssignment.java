@@ -4,7 +4,10 @@ import java.util.Arrays;
 public class ArrayAssignment {
 
     public static void main(String[] args) {
-        int[][] recArr = {{1,2,3,4,5,6},{7,8,9,10,11,12}};
+        //int[][] recArr = {{1,2},{3,4},{5,6},{7,8},{9,10},{11,12}};//,234},{13,14,15,16,17,18,345},{123,345,234,567,234,36,63}};
+        //int[][] recArr = {{1,2,3,4,5,6,7},{8,9,10,11,12,234,573},{13,14,15,16,17,18,345},{123,345,234,567,234,36,63}};
+        //int [][] recArr = [1, 2, 3, 4],[5, 6, 7, 8][9, 10, 11, 12][13, 14, 15, 16;
+        int [][] recArr = {{1,2,3},{4,5,6},{7,8,9}};
         diagonalPrint(recArr);
 
 
@@ -17,32 +20,42 @@ public class ArrayAssignment {
 
 
         for (int i = 0;i<A.length;i++){
+            // assigns 1s in lCheckCounter [0,1,1,0,1] with k elements for every value 0;k-1 in A[]
             if (A[i] < k){
                 lCheckCounter[A[i]] = 1;
             }
         }
         for(int i = 0; i<lCheckCounter.length; i++){
+            // checks that every number 0 to k-1 is in A
+            // returns 0 if one of the 0;k-1 values is'nt in A
             if (lCheckCounter[i] == 0){
                 return 0;
             }
         }
-        // makes an array and checks if every number is available
         int [] lCheck = new int[k];
-        // lCheck array with k elements [0,1,...,k]
+        // lCheck array with k elements [0,1,...,k] same as lCheckCounter
+        // it starts at every index and finishes when lCheck is full
+        // finds the shortest path at which lCheck is filled
         for(int i = 0;i<A.length;i++){
+            // iterates over A
+            // starts at A[i] and counts how many steps it takes, till all lCheck elements are 1
             for (int j = i;j<A.length;j++){
-                System.out.println("j: "+j);
+
+                // checks if A[j] value is in 0;k-1 and if so assigns 1 to lCheck
                 if(0 <= A[j] && A[j] < k){
                     lCheck[A[j]] = 1;
                 }
+
                 boolean full = true;
                 for(int d = 0; d<lCheck.length; d++){
-                    //System.out.println(d);
+                    //checks every j if lCheck is complete
                     if (lCheck[d] == 0){
                         full = false;
                     }
                 }
                 if(full && j-i <path){
+                    // if lCheck is complete and the steps where less than the previous paths
+                    // then it assigns the new steps amount to path
                     path = j-i+1;
                     System.out.println("path update " +path);
                     break;
@@ -50,15 +63,12 @@ public class ArrayAssignment {
 
             }
             for (int j =0; j<lCheck.length;j++){
+                // lCheck back to 0: [0,0,0,0,0,0,0,0,k=0,]
                 lCheck[j] = 0;
             }
-            //sets lCheck[1,0,1] to zero
-            System.out.println("path int the end: "+path);
+
         }
 
-        // returns false if one of the numbers are left out
-
-        // now we now that there is a possible way
 
 
         return path;
@@ -67,50 +77,58 @@ public class ArrayAssignment {
     public static void diagonalPrint(int[][] m) {
 
         int rows = m.length;
-        int collums = m[0].length;
+        int columns = m[0].length;
+        int loop = rows + columns - 1;
+        // loop ist die Menge an Startpunkten an denen man wieder anfängt
+        // links und unten die elemnte entlang
 
-        int loop = rows + collums -1;
-        for (int i = 0;i<loop;i++){
+        for (int i = 0;i<loop;i++) {
+            // looped so oft wie es startpunkte gibt|_
+
             int x = 0;
             int y = 0;
-
-
             if (i >= rows - 1) {
                 x = rows - 1;
                 y = i - rows + 1;
-            }else {
+            } else {
                 x = i;
             }
-            System.out.print("(x: "+x+" y: "+y+")");
+            //Systemten f.out.print("(x: "+x+" y: "+y+")");
+            //            // findet Koordinaür startpunkte
 
-            // x und y sind startpunkte
-            if (rows == collums) {
+            // if statements for these amount of rows =,<,> columns
+            if (rows == columns) {
                 for (int j = 0; j < x - y + 1; j++) {
                     int a = x - j;
                     int b = y + j;
                     System.out.print(m[a][b]+" ");
+                }
+            }else if (rows < columns) {
+                int g = 1;
+                int bigger = columns -rows;
+                // bigger is how much more columns there are then rows
+                if (y>0){
+
+                    // When y starts to grow in other words that we started to stay in same row und go column to the right
+                    g = y+1;
+                }
+
+                if(y > bigger){
+                    g = -x +y+columns-y;
 
                 }
-            }else if (rows < collums){
-                int g = 1;
-                if (y >= 1){
-                    g = collums-y-3;
-                    System.out.println(g);
-                }
-                for (int j = 0;j < x-y + g ;j++){
+                for (int j = 0;j < x-y +g && j<columns-1;j++){
 
                     int a = x - j;
                     int b = y + j;
                     System.out.print(m[a][b]+" ");
                 }
-                System.out.println();
 
 
-
-            }else if (rows> collums){
+            }else if (rows> columns){
                 int g = 1;
-                if (x >= collums){
-                    g = collums-x;
+                if (x >= columns){
+                    g = columns-x;
                 }
                 for (int j = 0;j < x-y + g  &&  j < rows;j++){
 
@@ -118,9 +136,6 @@ public class ArrayAssignment {
                     int b = y + j;
                     System.out.print(m[a][b]+" ");
                 }
-                System.out.println();
-
-
             }
         }
     }
