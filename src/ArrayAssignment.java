@@ -4,10 +4,9 @@ import java.util.Arrays;
 public class ArrayAssignment {
 
     public static void main(String[] args) {
-        int[][] recArr = {{1,2,3},{4,5,6},{7,8,9}};
+        int[][] recArr = {{1,2,3},{4,5,6},{7,8,9},{20,21,22}};
         diagonalPrint(recArr);
-        int [] A = {1,2,3,0,0,2,1};
-        System.out.println(allNumsWithin(A,3));
+
 
 
     }
@@ -66,59 +65,60 @@ public class ArrayAssignment {
     }
 
     public static void diagonalPrint(int[][] m) {
-        //System.out.printf(m[0][0]+" ");
-        int aCounter = 0,bCounter = 0,dover = 0;
-        boolean claped = true;
-        /*
-        for(int i = 0;i<m.length;i++){
-            System.out.println("jf");
-            bCounter++;
-            if(aCounter<dover && claped){
-                bCounter++;
-                aCounter = 0;
-                i= 0;
-                System.out.println("his");
 
-            }else if(!claped){
-                i--;
-                bCounter--;
-            }
-            for (int j=0;j<bCounter;j++){
-                System.out.print(m[i][j]+" ");
-                dover ++;
-                aCounter += 2;
+        int rows = m.length;
+        int collums = m[0].length;
 
-            }
-        }
-        */
-        int rowTops = 1;
-        boolean rowBack = false;
-        int rowBobs = 0;
-        int i = 0;
-        while (i<rowTops){
-            //System.out.println("this is i "+i);
-            //System.out.print(m[i][0] + " ");
-            if(rowTops<m.length&&!rowBack){
-                rowTops++;
-                //System.out.printf("row");
-            }else if(rowTops==m.length){
-                //System.out.printf("this");
-                i = 0;
-                rowTops--;
-                rowBack = true;
-                rowBobs = m.length-1;
-            }else if(rowBobs == rowTops && rowBack){
-                i = 0;
-                rowBobs--;
-                rowTops--;
-            }
+        int loop = rows + collums -1;
+        for (int i = 0;i<loop;i++){
+            int x = 0;
+            int y = 0;
 
-            else{
-                //System.out.printf("that");
-                rowTops--;
+
+            if (i >= rows - 1) {
+                x = rows - 1;
+                y = i - rows + 1;
+            }else {
+                x = i;
             }
-            for(int j = 0;j<rowTops;j++){
-                //System.out.print(m[i][j] +" ");
+            //System.out.print("(x: "+x+" y: "+y+")");
+
+            // x und y sind startpunkte
+            if (rows == collums) {
+                for (int j = 0; j < x - y + 1; j++) {
+                    int a = x - j;
+                    int b = y + j;
+                    System.out.print(m[a][b]+" ");
+
+                }
+            }else if (rows < collums){
+                int g = 1;
+                if (x >= rows-1&& 0<y){
+
+                    g = 2;
+                }
+                for (int j = 0;j < x-y + g  &&  j < collums;j++){
+
+                    int a = x - j;
+                    int b = y + j;
+                    System.out.print(m[a][b]+" ");
+                }
+
+
+
+            }else if (rows> collums){
+                int g = 1;
+                if (x >= collums){
+                    g = 0;
+                }
+                for (int j = 0;j < x-y + g  &&  j < rows;j++){
+
+                    int a = x - j;
+                    int b = y + j;
+                    System.out.print(" "+m[a][b]+" ");
+                }
+
+
             }
         }
     }
